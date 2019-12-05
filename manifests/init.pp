@@ -31,16 +31,11 @@ class go_agent (
   $go_server,
   $agent_key,
   $agent_resources,
-  $agent_environments,
-  $java_home = "/usr/lib/jvm/java-7-openjdk-i386/jre"
+  $agent_environments
 ) inherits ::go_agent::params {
-  package { "go-agent":
-    ensure  => installed,
-    require => [Package['openjdk-7-jre-headless'],],
-  }
 
-  if !defined(Package['openjdk-7-jre-headless']) {
-    package { "openjdk-7-jre-headless": ensure => "7u79-2.5.5-0ubuntu0.14.04.2" }
+  package { $::go_agent::params::package_name:
+    ensure => installed
   }
 
   file { "autoregister.properties":
@@ -48,17 +43,17 @@ class go_agent (
     mode    => '0700',
     owner   => 'go',
     content => template("go_agent/autoregister.properties.erb"),
-    require => Package['go-agent'],
+    require => Package[$::go_agent::params::package_name],
   }
 
   file { "/etc/default/go-agent":
     mode    => '0700',
     owner   => 'go',
     content => template("go_agent/default.erb"),
-    require => Package['go-agent'],
+    require => Package[$::go_agent::params::package_name],
   }
 
-  service { 'go-agent':
+  service { $::go_agent::params::service_name:
     ensure    => 'running',
     subscribe => File["autoregister.properties"],
   }
