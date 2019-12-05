@@ -16,16 +16,12 @@
 # [*agent_environments*]
 #   The environments the agent runs in
 #
-# [*java_home*]
-#   Path to java, Defaults to '/usr/lib/jvm/java-7-openjdk-i386/jre'
-#
 # == Usage
 #
 #   class { 'go_agent':
 # 	  agent_key       => 'my-key',
 # 	  agent_resources => 'my-resources',
-# 	  go_server       => "url",
-# 	  java_home       => "/usr/lib/jvm/java-7-openjdk-amd64/jre"
+# 	  go_server       => "url"
 # 	}
 class go_agent (
   $go_server,
