@@ -32,7 +32,8 @@ class go_agent (
   $agent_key,
   $agent_resources,
   $agent_environments,
-  $java_home = "/usr/lib/jvm/java-7-openjdk-i386/jre") {
+  $java_home = "/usr/lib/jvm/java-7-openjdk-i386/jre"
+) inherits ::go_agent::params {
   package { "go-agent":
     ensure  => installed,
     require => [Package['openjdk-7-jre-headless'],],
