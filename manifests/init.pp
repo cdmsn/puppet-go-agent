@@ -27,7 +27,8 @@ class goagent (
   $go_server,
   $agent_key,
   $agent_resources,
-  $agent_environments
+  $agent_environments,
+  $agent_version
 ) inherits ::goagent::params {
 
   apt::source { 'gocd':
@@ -45,7 +46,7 @@ class goagent (
     },
   } ->
   package { $::goagent::params::package_name:
-    ensure => installed,
+    ensure => $agent_version,
   }
 
   file { "/var/lib/go-agent/config":
