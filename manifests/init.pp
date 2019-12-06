@@ -34,8 +34,8 @@ class goagent (
     comment  => 'Repor for GoCD',
     location => 'http://download.gocd.org',
     key      => {
-      'id'     => '322259C82D3082B3E32AEC2ED8843F288816C449',
       'server' => 'download.gocd.org',
+       source  => https://download.gocd.org/GOCD-GPG-KEY.asc
     },
     include  => {
       'deb' => true,
