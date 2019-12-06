@@ -16,19 +16,23 @@
 # [*agent_environments*]
 #   The environments the agent runs in
 #
+# [*version*]
+#   The version of the agent to install
+#
 # == Usage
 #
 #   class { 'goagent':
 # 	  agent_key       => 'my-key',
 # 	  agent_resources => 'my-resources',
-# 	  go_server       => "url"
+# 	  go_server       => "url",
+#     version         => 'latest'
 # 	}
 class goagent (
   $go_server,
   $agent_key,
   $agent_resources,
   $agent_environments,
-  $agent_version
+  $version
 ) inherits ::goagent::params {
 
   apt::source { 'gocd':
@@ -46,7 +50,7 @@ class goagent (
     },
   } ->
   package { $::goagent::params::package_name:
-    ensure => $agent_version,
+    ensure => $version,
   }
 
   file { "/var/lib/go-agent/config":
