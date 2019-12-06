@@ -18,19 +18,19 @@
 #
 # == Usage
 #
-#   class { 'go_agent':
+#   class { 'goagent':
 # 	  agent_key       => 'my-key',
 # 	  agent_resources => 'my-resources',
 # 	  go_server       => "url"
 # 	}
-class go_agent (
+class goagent (
   $go_server,
   $agent_key,
   $agent_resources,
   $agent_environments
-) inherits ::go_agent::params {
+) inherits ::goagent::params {
 
-  package { $::go_agent::params::package_name:
+  package { $::goagent::params::package_name:
     ensure => installed
   }
 
@@ -39,17 +39,17 @@ class go_agent (
     mode    => '0700',
     owner   => 'go',
     content => template("go_agent/autoregister.properties.erb"),
-    require => Package[$::go_agent::params::package_name],
+    require => Package[$::goagent::params::package_name],
   }
 
   file { "/etc/default/go-agent":
     mode    => '0700',
     owner   => 'go',
     content => template("go_agent/default.erb"),
-    require => Package[$::go_agent::params::package_name],
+    require => Package[$::goagent::params::package_name],
   }
 
-  service { $::go_agent::params::service_name:
+  service { $::goagent::params::service_name:
     ensure    => 'running',
     subscribe => File["autoregister.properties"],
   }
