@@ -1,8 +1,8 @@
-# == Class: go_agent::params
+# == Class: goagent::params
 #
 # agent params class
 #
-class go_agent::params {
+class goagent::params {
 
   $package_name = 'go-agent'
   $service_name = 'go-agent'
