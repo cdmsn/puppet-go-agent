@@ -48,9 +48,11 @@ class goagent (
     include  => {
       'deb' => true,
     },
-  } ->
+  }
+  
   package { $::goagent::params::package_name:
     ensure => $version,
+    require => Apt::Source['gocd']
   }
 
   file { "/var/lib/go-agent/config":
@@ -74,12 +76,13 @@ class goagent (
     require => Package[$::goagent::params::package_name],
   }
 
-  file { "/usr/share/go-agent/wrapper-config/wrapper-properties.conf":
-    mode    => '0700',
-    owner   => 'go',
-    content => template("goagent/wrapper-properties.conf.erb"),
-    require => Package[$::goagent::params::package_name],
-  }
+  # will be relevant for go agent version > 19.0
+  #file { "/usr/share/go-agent/wrapper-config/wrapper-properties.conf":
+  #  mode    => '0700',
+  #  owner   => 'go',
+  #  content => template("goagent/wrapper-properties.conf.erb"),
+  #  require => Package[$::goagent::params::package_name],
+  #}
 
   service { $::goagent::params::service_name:
     ensure    => 'running',
