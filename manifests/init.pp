@@ -1,4 +1,4 @@
-# = Class: go_agent
+# = Class: goagent
 #
 # This Class manages a Go agent
 #
@@ -48,18 +48,31 @@ class goagent (
     ensure => installed,
   }
 
+  file { "/var/lib/go-agent/config":
+    ensure => 'directory',
+    owner  => 'go',
+    require => Package[$::goagent::params::package_name]
+  }
+  
   file { "autoregister.properties":
     path    => "/var/lib/go-agent/config/autoregister.properties",
     mode    => '0700',
     owner   => 'go',
     content => template("goagent/autoregister.properties.erb"),
-    require => Package[$::goagent::params::package_name],
+    require => File["/var/lib/go-agent/config"]
   }
 
   file { "/etc/default/go-agent":
     mode    => '0700',
     owner   => 'go',
     content => template("goagent/default.erb"),
+    require => Package[$::goagent::params::package_name],
+  }
+
+  file { "/usr/share/go-agent/wrapper-config/wrapper-properties.conf":
+    mode    => '0700',
+    owner   => 'go',
+    content => template("goagent/wrapper-properties.conf.erb"),
     require => Package[$::goagent::params::package_name],
   }
 
