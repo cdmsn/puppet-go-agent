@@ -30,8 +30,19 @@ class goagent (
   $agent_environments
 ) inherits ::goagent::params {
 
+  apt::source { 'gocd':
+    comment  => 'Repor for GoCD',
+    location => 'http://download.gocd.org',
+    key      => {
+      'id'     => '322259C82D3082B3E32AEC2ED8843F288816C449',
+      'server' => 'download.gocd.org',
+    },
+    include  => {
+      'deb' => true,
+    },
+  } ->
   package { $::goagent::params::package_name:
-    ensure => installed
+    ensure => installed,
   }
 
   file { "autoregister.properties":
