@@ -38,14 +38,14 @@ class goagent (
     path    => "/var/lib/go-agent/config/autoregister.properties",
     mode    => '0700',
     owner   => 'go',
-    content => template("go_agent/autoregister.properties.erb"),
+    content => template("goagent/autoregister.properties.erb"),
     require => Package[$::goagent::params::package_name],
   }
 
   file { "/etc/default/go-agent":
     mode    => '0700',
     owner   => 'go',
-    content => template("go_agent/default.erb"),
+    content => template("goagent/default.erb"),
     require => Package[$::goagent::params::package_name],
   }
 
