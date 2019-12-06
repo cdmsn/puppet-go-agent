@@ -66,5 +66,6 @@ class goagent (
   service { $::goagent::params::service_name:
     ensure    => 'running',
     subscribe => File["autoregister.properties"],
+    require   => File["/etc/default/go-agent"]
   }
 }
